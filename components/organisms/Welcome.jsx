@@ -2,6 +2,7 @@ import axios from 'axios';
 import useSpotify from '@/hooks/useSpotify';
 import MiniTrack from '../molecules/MiniTrack';
 import Weather from '../molecules/Weather';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { weatherCriteria } from '@/lib/moodCriteria';
@@ -15,22 +16,53 @@ export default function Welcome({ chooseTrack }) {
     const [city, setCity] = useState("Jakarta");
     const [weather, setWeather] = useState({});
     const [weatherTracks, setWeatherTracks] = useState([]);
-    const [weatherTracksFeatures, setWeatherTracksFeatures] = useState([])
 
     // Get weather data
     useEffect(() => {
-        const getWeatherData = async () => {
-            const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}`;
-            await axios.get(url).then(res => {
-                setWeather(res.data)
+        // Get weather data based on city
+        const getWeatherData = async (lat, lon) => {
+
+            // Get data for default city if no coordinates are provided
+            const url = (lat && lon) ? 
+                        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}`
+                        : `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}`;
+        
+            // Set weather state as weather data
+            try {
+                const response = await axios.get(url);
+                setWeather(response.data);
                 console.log(`Weather in ${city}`, weather);
-
-            }).catch(error => console.log("Error", error));
+            } catch (error) {
+                console.log("Error", error);
+            };
         };
-        getWeatherData();
-    }, []);
-
-
+    
+        // Ask user for location permission
+        const askForLocationPermission = () => {
+            return new Promise((resolve, reject) => {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => resolve(position.coords),
+                    (error) => reject(error),
+                    { enableHighAccuracy: true },
+                );
+            });
+        };
+    
+        // Fetch weather data
+        const fetchWeatherData = async () => {
+            try {
+                const coords = await askForLocationPermission();
+                const { latitude, longitude } = coords;
+                getWeatherData(latitude, longitude);
+            } catch (error) {
+                getWeatherData(null, null);
+            }
+        };
+    
+        // Call the fetch function
+        fetchWeatherData();
+    }, [city]);
+  
     // Search for Recommended Weather Tracks
     useEffect(() => {
         if (spotifyApi.getAccessToken() && weather?.main) {
@@ -51,10 +83,6 @@ export default function Welcome({ chooseTrack }) {
                 max_danceability: weatherNowCriteria.danceability[1],
                 min_instrumentalness: weatherNowCriteria.instrumentalness[0],
                 max_instrumentalness: weatherNowCriteria.instrumentalness[1],
-                min_key: weatherNowCriteria.key[0],
-                max_key: weatherNowCriteria.key[1],
-                min_liveness: weatherNowCriteria.liveness[0],
-                max_liveness: weatherNowCriteria.liveness[1],
                 min_loudness: weatherNowCriteria.loudness[0],
                 max_loudness: weatherNowCriteria.loudness[1],
                 min_mode: weatherNowCriteria.mode[0],
@@ -63,8 +91,6 @@ export default function Welcome({ chooseTrack }) {
                 max_speechiness: weatherNowCriteria.speechiness[1],
                 min_tempo: weatherNowCriteria.tempo[0],
                 max_tempo: weatherNowCriteria.tempo[1],
-                min_time_signature: weatherNowCriteria.time_signature[0],
-                max_time_signature: weatherNowCriteria.time_signature[1],
                 min_valence: weatherNowCriteria.valence[0],
                 max_valence: weatherNowCriteria.valence[1],
             }).then(res => {
@@ -101,7 +127,7 @@ export default function Welcome({ chooseTrack }) {
                 <div className="flex flex-grow flex-col w-full h-full overflow-hidden items-start font-light">
 
                     {/* Description */}
-                    <div>
+                    <div className="glow-sm max-[460px]:text-xs">
                         Music for the <strong className="gradient-text font-bold">{weather.weather[0].description}</strong> right now.
                     </div>
 
@@ -114,11 +140,22 @@ export default function Welcome({ chooseTrack }) {
                                         scrollbar-thumb-rounded hover:scrollbar-thumb-white/50"
                         >
                             {weatherTracks.map(track => (
-                                <MiniTrack 
+                                <AnimatePresence
                                     key={track.id}
-                                    track={track}
-                                    chooseTrack={chooseTrack}
-                                />
+                                >
+                                    <motion.div
+                                        initial={{ opacity: 0, transform: "translate(-20px, 0)" }}
+                                        whileInView={{ opacity: 1, transform: "translate(0, 0)" }}
+                                        exit={{ opacity: 0 }}
+                                        transition={{ opacity: { duration: 0.5 }, transform: { duration: 0.5, ease: "easeOut" } }}
+                                    >
+                                        <MiniTrack 
+                                            key={track.id}
+                                            track={track}
+                                            chooseTrack={chooseTrack}
+                                        />
+                                    </motion.div>
+                                </AnimatePresence>
                             ))}
                         </div>
                     ) : (

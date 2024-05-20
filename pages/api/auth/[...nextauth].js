@@ -8,8 +8,8 @@ async function refreshAccessToken(token) {
       const url =
         "https://accounts.spotify.com/api/token?" +
         new URLSearchParams({
-          client_id: process.env.SPOTIFY_CLIENT_ID,
-          client_secret: process.env.SPOTIFY_CLIENT_SECRET,
+          client_id: process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID,
+          client_secret: process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET,
           grant_type: "refresh_token",
           refresh_token: token.refreshToken,
         });
@@ -47,13 +47,13 @@ export const authOptions = {
     // Configure one or more authentication providers
     providers: [
         SpotifyProvider({
-            clientId: process.env.SPOTIFY_CLIENT_ID,
-            clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
+            clientId: process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID,
+            clientSecret: process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET,
             authorization: LOGIN_URL,
         }),
         // ...add more providers here
     ],
-    secret: process.env.JWT_SECRET,
+    secret: process.env.NEXT_PUBLIC_JWT_SECRET,
     pages: {
         signIn: "/login"
     },

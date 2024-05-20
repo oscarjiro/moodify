@@ -5,7 +5,7 @@ import { useRef } from 'react';
 
 const noise3D = createNoise3D();
 
-export default function Wave({ color, segments }) {
+export default function Wave({ color, segments, x, y }) {
     const mesh = useRef(null);
     const geometry = useRef(null);
     const timeRef = useRef(0);

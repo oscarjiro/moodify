@@ -3,10 +3,10 @@ import useSpotify from '@/hooks/useSpotify';
 import useSongInfo from '@/hooks/useSongInfo';
 import SpotifyPlayer from 'react-spotify-web-playback';
 import { FiVolumeX, FiVolume1, FiVolume2 } from 'react-icons/fi';
-import { experimentalPlayerState, playState, playingTrackState } from '@/atoms/playerAtom';
-import { ArrowPathIcon, ArrowUturnLeftIcon, BackwardIcon, ForwardIcon, PauseIcon, PlayIcon } from '@heroicons/react/24/solid';
+import { experimentalPlayerState, playState, playingTrackState } from '@/atoms/atoms';
+import { BackwardIcon, ForwardIcon, PauseIcon, PlayIcon } from '@heroicons/react/24/solid';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { errorSelector, useRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { useSession } from 'next-auth/react';
 import { debounce } from 'lodash';
 
@@ -15,7 +15,7 @@ export default function Player() {
     const spotifyApi = useSpotify();
     const [play, setPlay] = useRecoilState(playState);
     const [playingTrack, setPlayingTrack] = useRecoilState(playingTrackState);
-    const [experimental, setExperimental] = useRecoilState(experimentalPlayerState);
+    const [experimental] = useRecoilState(experimentalPlayerState);
     const [originalPlayer, setOriginalPlayer] = useState(true);
     const [volume, setVolume] = useState(50);
     const previousVolume = useRef(null);
@@ -104,7 +104,6 @@ export default function Player() {
 
                     {/* Center */}
                     <div className="flex items-center justify-center w-screen sm:w-auto sm:justify-evenly">
-                        <ArrowPathIcon className="controls hidden sm:block" />
                         <BackwardIcon className="controls hidden sm:block" />
                         <div id="togglePlay">
                             {play ? (
@@ -120,7 +119,6 @@ export default function Player() {
                             )}
                         </div>
                         <ForwardIcon className="controls hidden sm:block" />
-                        <ArrowUturnLeftIcon className="controls hidden sm:block" />
                     </div>
 
                     {/* Right */}
@@ -187,7 +185,7 @@ export default function Player() {
 
             {/* Script for Experimental Custom Player */}
             <Script src="https://sdk.scdn.co/spotify-player.js" />
-            <Script>
+            <Script id="playbackSdkScript">
                 {window.onSpotifyWebPlaybackSDKReady = () => {
 
                     if (experimental) {

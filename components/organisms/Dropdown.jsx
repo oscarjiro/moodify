@@ -1,10 +1,14 @@
 import { Menu, Transition } from "@headlessui/react";
 import { Fragment } from 'react';
 import { ArrowLeftOnRectangleIcon, ChevronDownIcon } from "@heroicons/react/24/solid";
+import { AiTwotoneExperiment } from 'react-icons/ai';
 import { signOut, useSession } from "next-auth/react"
+import { experimentalPlayerState } from "@/atoms/atoms";
+import { useRecoilState } from "recoil";
 
 export default function Dropdown() {
     const { data: session } = useSession();
+    const [experimentalPlayer, setExperimentalPlayer] = useRecoilState(experimentalPlayerState);
 
     return (
         <Menu as="div" className="w-24 h-12 relative flex items-center">
@@ -43,6 +47,17 @@ export default function Dropdown() {
                                 >
                                         <ArrowLeftOnRectangleIcon className="w-5 h-5 mr-2" aria-hidden="true" />
                                         Log Out
+                                </button>
+                            )}
+                        </Menu.Item>
+                        <Menu.Item>
+                            {({ active }) => (
+                                <button
+                                    className={`${active && "bg-white/[0.08]"} group glow flex rounded-md items-center w-full px-2 py-2 text-sm font-sembibold tracking-wide text-white cursor-pointer smooth-transition`}
+                                    onClick={() => setExperimentalPlayer(!experimentalPlayer)}
+                                >
+                                        <AiTwotoneExperiment className="w-5 h-5 mr-2" aria-hidden="true" />
+                                        {experimentalPlayer ? "Quit" : "Enter"} Experimental
                                 </button>
                             )}
                         </Menu.Item>

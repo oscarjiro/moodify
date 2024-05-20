@@ -3,81 +3,131 @@
 @tailwind utilities;
 
 @layer base {
-  body {
-    @apply select-none bg-gradient-to-b from-[#ca5ccd] to-black scrollbar-hide;
-  }
+    body {
+        @apply select-none bg-gradient-to-b from-[#ca5ccd] to-black scrollbar-hide;
+    }
 }
 
 @layer components {
-  .glow {
-    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 1));
-  }
-
-  .glow-sm {
-    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.7));
-  }
-
-  .smooth-transition {
-    @apply transition-all ease-in-out duration-300;
-  }
-
-  .gradient-text {
-    @apply bg-gradient-to-bl from-white from-20% to-[#ca5ccd] bg-clip-text text-transparent;
-  }
-
-  .homepage-header {
-    @apply text-xl;
-  }
-
-  @media (min-width: 366px) {
-    .homepage-header {
-      @apply text-2xl;
+    .glow {
+        filter: drop-shadow(0 0 10px rgba(255, 255, 255, 1));
     }
-  }
 
-  @media (min-width: 450px) {
-    .homepage-header {
-      @apply text-3xl;
+    .glow-sm {
+        filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.7));
     }
-  }
 
-  .active-page {
-    @apply opacity-100 visible smooth-transition;
-  }
+    .smooth-transition {
+        @apply transition-all ease-in-out duration-300;
+    }
 
-  .inactive-page {
-    @apply opacity-0 invisible smooth-transition hidden;
-  }
+    .gradient-text {
+        @apply bg-gradient-to-bl from-white from-20% to-[#ca5ccd] bg-clip-text text-transparent;
+    }
 
-  .sidebar-icon {
-    @apply h-7 text-white/[0.45] cursor-pointer;
-  }
+    .header {
+        @apply text-base font-bold glow whitespace-nowrap mb-3;
+    }
 
-  .sidebar-icon-active {
-    @apply text-white smooth-transition duration-500 glow;
-  }
+    @media (min-width: 366px) {
+        .header {
+            @apply text-xl;
+        }
+    }
 
-  .tag {
-    @apply py-1.5 px-3 text-[#cecece] bg-[#282828] rounded-xl text-xs font-bold border-2 border-[#484848];
-  }
+    @media (min-width: 430px) {
+        .header {
+            @apply text-2xl;
+        }
+    }
 
-  .genre {
-    @apply bg-[#101010] text-[#cecece] border border-[#484848] rounded-xl py-2.5 px-3.5 text-[11px] font-bold cursor-default;
-  }
+    @media (min-width: 525px) {
+        .header {
+            @apply text-3xl;
+        }
+    }
 
-  .controls {
-    @apply w-5 h-5 hover:scale-125 smooth-transition cursor-pointer glow;
-  }
+    .active-page {
+        @apply opacity-100 visible smooth-transition;
+    }
 
-  .btn {
-    @apply text-[#cecece] bg-[#1a1a1a] text-[13px] py-3.5 px-4 rounded-2xl w-full font-bold bg-opacity-80 hover:bg-opacity-100 smooth-transition;
-  }
+    .inactive-page {
+        @apply opacity-0 invisible smooth-transition hidden;
+    }
 
-  .icon {
-    @apply hover:scale-125 smooth-transition;
-  }
+    .sidebar-icon {
+        @apply h-7 text-white/[0.45] cursor-pointer;
+    }
 
-  .track-on-window {
-    transform-style: preserve-3d;
-  }
+    .sidebar-icon-active {
+        @apply text-white smooth-transition duration-500 glow;
+    }
+
+    .tag {
+        @apply py-1.5 px-3 text-[#cecece] bg-[#282828] rounded-xl text-xs font-bold border-2 border-[#484848];
+    }
+
+    .genre {
+        @apply bg-[#101010] text-[#cecece] border border-[#484848] rounded-xl py-2.5 px-3.5 text-[11px] font-bold cursor-default;
+    }
+
+    .controls {
+        @apply w-5 h-5 hover:scale-125 smooth-transition cursor-pointer glow;
+    }
+
+    .btn {
+        @apply text-[#cecece] bg-[#1a1a1a] text-[13px] py-3.5 px-4 rounded-2xl w-full font-bold bg-opacity-80 hover:bg-opacity-100 smooth-transition;
+    }
+
+    .icon {
+        @apply hover:scale-125 smooth-transition;
+    }
+
+    .track-on-window {
+        transform-style: preserve-3d;
+    }
+
+    /*
+  * react-circular-progressbar styles
+  * All of the styles in this file are configurable!
+  */
+
+    .CircularProgressbar {
+        /*
+    * This fixes an issue where the CircularProgressbar svg has
+    * 0 width inside a "display: flex" container, and thus not visible.
+    */
+        width: 100%;
+        /*
+    * This fixes a centering issue with CircularProgressbarWithChildren:
+    * https://github.com/kevinsqi/react-circular-progressbar/issues/94
+    */
+        vertical-align: middle;
+    }
+
+    .CircularProgressbar .CircularProgressbar-path {
+        stroke: rgba(255, 255, 255, 0.5);
+        filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.4));
+        stroke-linecap: round;
+        -webkit-transition: stroke-dashoffset 0.5s ease 0s;
+        transition: stroke-dashoffset 0.5s ease 0s;
+    }
+
+    .CircularProgressbar .CircularProgressbar-trail {
+        stroke: rgba(255, 255, 255, 0.4);
+        /* Used when trail is not full diameter, i.e. when props.circleRatio is set */
+        stroke-linecap: round;
+    }
+
+    .CircularProgressbar .CircularProgressbar-text {
+        @apply glow-sm;
+        fill: rgba(255, 255, 255, 0.7);
+        font-size: 20px;
+        dominant-baseline: middle;
+        text-anchor: middle;
+    }
+
+    .CircularProgressbar .CircularProgressbar-background {
+        fill: #d6d6d6;
+    }
 }

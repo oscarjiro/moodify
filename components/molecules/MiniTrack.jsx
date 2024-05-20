@@ -1,4 +1,4 @@
-import { playState, playingTrackState } from '@/atoms/playerAtom';
+import { playState, playingTrackState } from '@/atoms/atoms';
 import { HeartIcon, PauseIcon, PlayIcon } from "@heroicons/react/24/solid";
 import { useState } from 'react';
 import { useRecoilState } from 'recoil';
@@ -18,7 +18,7 @@ export default function MiniTrack({ track, chooseTrack }) {
                         hover:bg-black/30 py-2 rounded-lg group smooth-transition duration-200
                         overflow-x-hidden w-full relative"
         >
-            <div className="flex items-center justify-center">
+            <div className="flex items-center justify-center ml-2">
                 {/* Track Info */}
                 <img 
                     src={track?.image}

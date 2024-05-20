@@ -1,7 +1,7 @@
 import useSpotify from './useSpotify';
 import { useState, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
-import { playingTrackState } from '@/atoms/playerAtom';
+import { playingTrackState } from '@/atoms/atoms';
 
 export default function useSongInfo() {
     const spotifyApi = useSpotify();

@@ -1,11 +1,12 @@
 import Tilt from "react-parallax-tilt";
+import Image from "next/image";
 import { PlayIcon, PauseIcon } from "@heroicons/react/24/solid";
-import { playState, playingTrackState } from "@/atoms/playerAtom";
+import { playState, playingTrackState } from "@/atoms/atoms";
 import { useRecoilState } from "recoil";
 
 export default function Poster({ track, chooseTrack, onMouseOver, onMouseLeave }) {
   const [play, setPlay] = useRecoilState(playState);
-  const [playingTrack, setPlayingTrack] = useRecoilState(playingTrackState);
+  const [playingTrack] = useRecoilState(playingTrackState);
 
   const handlePlay = () => {
     chooseTrack(track);
@@ -20,30 +21,32 @@ export default function Poster({ track, chooseTrack, onMouseOver, onMouseLeave }
         glarePosition="all"
         scale={1.1}
         reset="false"
-        className="track-on-window w-[260px] h-[360px] rounded-[50px] overflow-hidden 
+        className="track-on-window sm:w-[260px] w-[180px] sm:h-[370px] h-[256px] sm:rounded-[50px] rounded-[30px] overflow-hidden 
                   relative text-white/80 cursor-pointer hover:scale-105 hover:text-white/100 
                   smooth-transition group mx-auto"
       >
-          <img
-              src={track.albumUrl}
-              alt={track.title} 
-              className="h-full w-full absolute inset-0 object-cover rounded-[50px] opacity-80 group-hover:opacity-100" 
+          <Image
+              src={track?.image}
+              alt={track?.title} 
+              layout="fill"
+              unoptimized
+              className="h-full w-full absolute inset-0 object-cover opacity-80 group-hover:opacity-100" 
           />
           
           <div className="absolute bottom-10 inset-x-0 ml-4 flex items-center space-x-3.5">
               <div 
-                className="h-10 w-10 bg-[#ab40af] rounded-full flex items-center justify-center
+                className="sm:h-10 sm:w-10 w-8 h-8 bg-[#ab40af] rounded-full flex items-center justify-center
                         group-hover:bg-[#ca5ccd] flex-shrink-0 hover:scale-[1.2] smooth-transition duration-[175ms]"
               >
-                  {track.uri === playingTrack?.uri && play ? (
-                    <PauseIcon className="w-5" />
+                  {track?.uri === playingTrack?.uri && play ? (
+                    <PauseIcon className="sm:w-5 w-4" />
                     ) : (
-                      <PlayIcon className="w-5 ml-[2px]" /> 
+                      <PlayIcon className="sm:w-5 w-4 ml-[2px]" /> 
                   )}
               </div>
-              <div className="text-[15px] group-hover:glow-sm smooth-transition ">
-                <h4 className="font-extrabold truncate w-44">{track.title}</h4> 
-                <h4>{track.artist}</h4> 
+              <div className="sm:text-[15px] text-[10px] group-hover:glow-sm smooth-transition ">
+                <h4 className="font-extrabold truncate sm:w-44 w-[100px]">{track?.title}</h4> 
+                <h4>{track?.artist}</h4> 
               </div>
           </div>
       </Tilt>
