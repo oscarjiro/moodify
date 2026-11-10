@@ -2,11 +2,14 @@
 
 **Music discovery for your mood and the weather.**
 
-Moodify is a collaborative web project that brings Spotify music discovery into a custom interface. It combines a listener's selected mood, favorite artists, and current weather conditions with track recommendations, search, artist exploration, and playback controls.
+> [!WARNING]
+> **Legacy project · Unmaintained · Not verified to work today**
+>
+> This is a preserved 2024 project, **not an actively maintained or production-ready application**. Its older Next.js/React dependencies, Spotify Web API integrations, OAuth configuration, and deployment setup have not been updated or retested against current services. Installation, sign-in, music recommendations, or playback may fail. The original implementation is kept primarily as a portfolio and learning reference.
 
-Built as a student team project in 2024, Moodify is preserved here as an early end-to-end web development project.
+Moodify is a music-discovery web app developed by **Oscar Jiro Harlison**. It combines a listener's selected mood, favorite artists, and current weather conditions with track recommendations, search, artist exploration, and playback controls.
 
-> **Project status:** Historical portfolio project. The original implementation uses Spotify Web API functionality whose availability has changed since the app was built. Some features may require updates or special API access to work today.
+Built in 2024, Moodify documents an early end-to-end web development project. Its functionality is described below as originally implemented, **not as a guarantee of current compatibility**.
 
 ## Features
 
@@ -49,9 +52,9 @@ The mood and weather matching is **rule-based**, not a trained machine-learning 
 - [`hooks/`](./hooks): Spotify and track-information hooks
 - [`atoms/`](./atoms): Shared Recoil state
 
-## Running the original project locally
+## Running the original project locally (historical instructions)
 
-Install dependencies and start the Next.js development server:
+**These commands are unverified against current dependencies and API access.** In a safe local environment, the original workflow was to install dependencies and start the Next.js development server:
 
 ```bash
 npm install
@@ -66,11 +69,13 @@ The application also requires a configured Spotify developer application, OAuth 
 
 ## API compatibility
 
-Spotify changed developer access to certain Web API endpoints after this project was built, including **Recommendations** and **Related Artists**. The original API-dependent screens may not function for an app without the required access. See Spotify's [2024 Web API changes](https://developer.spotify.com/blog/2024-11-27-changes-to-the-web-api) and [2026 development-mode migration guide](https://developer.spotify.com/documentation/web-api/tutorials/february-2026-migration-guide).
+Spotify restricted developer access to parts of the Web API used here, including **Recommendations** and **Related Artists**, in November 2024. In 2026, Spotify also introduced additional Development Mode limits, though it **postponed the March 2026 endpoint-access changes for existing Development Mode integrations**. Actual behavior depends on the Spotify app's access level and age; this repository has not been retested. See Spotify's [2024 Web API changes](https://developer.spotify.com/blog/2024-11-27-changes-to-the-web-api), [2026 developer-access update](https://developer.spotify.com/blog/2026-02-06-update-on-developer-access-and-platform-security), and [migration guide](https://developer.spotify.com/documentation/web-api/tutorials/february-2026-migration-guide).
 
-## Contributors
+## Project credits
 
-This was a collaborative project with **Oscar Jiro Harlison**, **I Kadek Rio Arta Putra**, **Khanza Azzahra Putrida S.**, and **Vanessa Dwi Lestari**, as credited in the original application's About Us section.
+**Created and developed by Oscar Jiro Harlison.**
+
+The original application retains its historical About Us screen, but that roster should not be treated as an attribution of software development work.
 
 ---
 
