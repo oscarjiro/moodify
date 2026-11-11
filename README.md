@@ -2,14 +2,14 @@
 
 **Music discovery for your mood and the weather.**
 
-> [!WARNING]
-> **Legacy project · Unmaintained · Not verified to work today**
+> [!NOTE]
+> **Built in 2024 · Original version preserved**
 >
-> This is a preserved 2024 project, **not an actively maintained or production-ready application**. Its older Next.js/React dependencies, Spotify Web API integrations, OAuth configuration, and deployment setup have not been updated or retested against current services. Installation, sign-in, music recommendations, or playback may fail. The original implementation is kept primarily as a portfolio and learning reference.
+> Moodify is an early portfolio project, shared as it was originally built. I haven't recently tested its dependencies, Spotify integrations, or deployment against current services, so some features may need updates before they work again.
 
 Moodify is a music-discovery web app developed by **Oscar Jiro Harlison**. It combines a listener's selected mood, favorite artists, and current weather conditions with track recommendations, search, artist exploration, and playback controls.
 
-Built in 2024, Moodify documents an early end-to-end web development project. Its functionality is described below as originally implemented, **not as a guarantee of current compatibility**.
+Built in 2024, Moodify documents one of my first full web development projects. The features below describe the original implementation, rather than a currently tested release.
 
 ## Features
 
@@ -52,9 +52,9 @@ The mood and weather matching is **rule-based**, not a trained machine-learning 
 - [`hooks/`](./hooks): Spotify and track-information hooks
 - [`atoms/`](./atoms): Shared Recoil state
 
-## Running the original project locally (historical instructions)
+## Running locally
 
-**These commands are unverified against current dependencies and API access.** In a safe local environment, the original workflow was to install dependencies and start the Next.js development server:
+These are the original development commands; compatibility with current dependencies and APIs has not been verified:
 
 ```bash
 npm install
@@ -67,9 +67,22 @@ The application also requires a configured Spotify developer application, OAuth 
 
 **Security note:** The original code references some secrets using `NEXT_PUBLIC_` environment-variable names. In Next.js, that prefix is for values that may be exposed to the browser. **Do not configure real client secrets or signing secrets under those names.** Refactor the OAuth configuration to use server-only secret variables before deploying or reconnecting real credentials. Never commit a populated `.env` file.
 
-## API compatibility
+## Spotify API compatibility
 
-Spotify restricted developer access to parts of the Web API used here, including **Recommendations** and **Related Artists**, in November 2024. In 2026, Spotify also introduced additional Development Mode limits, though it **postponed the March 2026 endpoint-access changes for existing Development Mode integrations**. Actual behavior depends on the Spotify app's access level and age; this repository has not been retested. See Spotify's [2024 Web API changes](https://developer.spotify.com/blog/2024-11-27-changes-to-the-web-api), [2026 developer-access update](https://developer.spotify.com/blog/2026-02-06-update-on-developer-access-and-platform-security), and [migration guide](https://developer.spotify.com/documentation/web-api/tutorials/february-2026-migration-guide).
+This project predates significant Spotify API changes. The following methods are used by Moodify:
+
+| Code method | Spotify endpoint | What changed |
+| --- | --- | --- |
+| `getRecommendations()` | `GET /recommendations` | Restricted for new and many Development Mode apps since November 2024; affects mood- and weather-based discovery |
+| `getArtistRelatedArtists()` | `GET /artists/{id}/related-artists` | Restricted under the same November 2024 policy |
+| `getNewReleases()` | `GET /browse/new-releases` | Removed under the February 2026 rules for newly created Development Mode apps |
+| `getArtistTopTracks()` | `GET /artists/{id}/top-tracks` | Removed under those February 2026 rules |
+| `getUserPlaylists()` | `GET /me/playlists` | Still supported for the current user |
+| `searchTracks()` / `searchArtists()` | `GET /search` | Still supported, with tighter result limits for affected apps |
+
+**Important nuance:** Spotify postponed the March 2026 *endpoint-access* changes for existing Development Mode apps. The applicability of each change therefore depends on the original Spotify developer app's mode and registration date; this repository has not been tested with live credentials. Spotify has also introduced six-month refresh-token expiration, and the original `spotify-web-api-node` SDK is now archived. Artist follower and popularity metadata may be unavailable in newer API responses.
+
+Official references: [November 2024 restrictions](https://developer.spotify.com/blog/2024-11-27-changes-to-the-web-api), [February 2026 policy and postponement](https://developer.spotify.com/blog/2026-02-06-update-on-developer-access-and-platform-security), [February 2026 migration guide](https://developer.spotify.com/documentation/web-api/tutorials/february-2026-migration-guide), [June 2026 refresh-token changes](https://developer.spotify.com/blog/2026-06-18-refresh-token-expiration).
 
 ## Project credits
 
